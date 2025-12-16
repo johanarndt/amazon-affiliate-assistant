@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Local databases
+data.db
+
+# Environment files
+.env
+
+# AI models (CRITICAL – prevents GB files)
+models/
+
+# OS junk
+.DS_Store
+Thumbs.db
