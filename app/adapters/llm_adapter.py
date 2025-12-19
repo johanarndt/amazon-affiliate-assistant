@@ -7,9 +7,9 @@ from groq import Groq
 
 class GroqLLM:
     def __init__(self):
-        api_key = os.environ.get("GROQ_API_KEY")
+        api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
-            raise RuntimeError("GROQ_API_KEY is not set")
+            raise RuntimeError("GROQ_API_KEY not set")
 
         self.client = Groq(api_key=api_key)
 
@@ -20,10 +20,12 @@ class GroqLLM:
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
-            max_tokens=512,
+            max_tokens=256,
+            temperature=0.7
         )
-        return completion.choices[0].message.content
+
+        return completion.choices[0].message.content.strip()
+
 
 
 
