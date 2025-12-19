@@ -3,7 +3,14 @@ services.py
 Minimal service layer for Amazon Affiliate Assistant
 """
 
-from app.adapters.llm_adapter import LocalTemplateLLM
+import os
+
+llm_engine = None
+
+if os.getenv("ENABLE_LLM", "false").lower() == "true":
+    from app.adapters.llm_adapter import LocalTemplateLLM
+    llm_engine = LocalTemplateLLM()
+
 
 # -------------------------------
 # LLM ENGINE (REQUIRED BY backend)
