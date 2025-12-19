@@ -15,13 +15,13 @@ class GroqLLM:
 
     def generate(self, prompt: str) -> str:
         completion = self.client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
-            max_tokens=200
+            max_tokens=512,
         )
         return completion.choices[0].message.content
 
