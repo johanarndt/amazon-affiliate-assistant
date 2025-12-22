@@ -1,20 +1,22 @@
 from fastapi import FastAPI, HTTPException
-from app.services import llm_engine
-from app.models.chat import ChatRequest, ChatResponse
+from app.models.chat import ChatRequest, ChatResponse, generate_response
 
 app = FastAPI()
 
+
 @app.get("/")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "message": "Backend running (Groq enabled)"}
+
 
 @app.post("/chat", response_model=ChatResponse)
-def chat(payload: ChatRequest):
+def chat(request: ChatRequest):
     try:
-        reply = llm_engine.generate(payload.prompt)
-        return ChatResponse(response=reply)
+        output = generate_response(request.prompt)
+        return ChatResponse(response=output)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 
