@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
-from app.models.chat import ChatRequest, ChatResponse, generate_response
+from app.models.chat import ChatRequest, generate_response
+
 
 app = FastAPI()
 
@@ -9,13 +9,13 @@ def health():
     return {"status": "ok", "message": "Backend running (Groq enabled)"}
 
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(request: ChatRequest):
-    try:
-        output = generate_response(request.prompt)
-        return ChatResponse(response=output)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.post("/chat")
+async def chat(req: ChatRequest):
+    response = generate_response(req.text)
+    return {"response": response}
+
+
+    
 
 
 
